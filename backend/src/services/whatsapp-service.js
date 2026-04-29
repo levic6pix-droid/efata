@@ -147,6 +147,13 @@ ${pedido.endereco}
     }
   }
 
+  getStatus() {
+    return {
+      connected: this.isReady,
+      qr: this.lastQr
+    };
+  }
+
   async init(groqKey) {
     console.log('--- Iniciando WhatsApp Service (Supabase Integration) ---');
     

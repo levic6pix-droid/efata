@@ -1,8 +1,13 @@
 const express = require('express');
 const supabase = require('../config/supabase');
 const chatbotService = require('../services/chatbot-service');
+const whatsappService = require('../services/whatsapp-service');
 
 const router = express.Router();
+
+router.get('/chat/status', (req, res) => {
+  res.json(whatsappService.getStatus());
+});
 
 // ─────────────────────────────────────────────────────────────
 // Lista todas as conversas ativas (para o WhatsApp Monitor)

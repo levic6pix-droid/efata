@@ -38,6 +38,29 @@ function WhatsAppPanel({ socket }) {
     return () => clearInterval(t);
   }, []);
 
+  // ── Polling de Status (Fallback se o Socket demorar) ────────
+  useEffect(() => {
+    if (isConnected) return;
+
+    const checkStatus = async () => {
+      try {
+        const res = await http.get('/chat/status');
+        if (res.data.connected) {
+          setIsConnected(true);
+          setQrCode('');
+        } else if (res.data.qr) {
+          setQrCode(res.data.qr);
+        }
+      } catch (err) {
+        console.log('Erro ao checar status do WhatsApp:', err);
+      }
+    };
+
+    checkStatus();
+    const interval = setInterval(checkStatus, 5000);
+    return () => clearInterval(interval);
+  }, [isConnected]);
+
   // ── Carrega mensagens de uma conversa ──────────────────────
   const loadMensagens = async (phone) => {
     setLoadingMsgs(true);
