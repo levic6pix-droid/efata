@@ -43,8 +43,9 @@ const start = async () => {
     // Inicia o WhatsApp em background (apenas se não estiver na Vercel)
     const isVercel = process.env.VERCEL || process.env.NOW_BUILDER;
     const isRailway = process.env.RAILWAY_ENVIRONMENT || process.env.RAILWAY_STATIC_URL;
+    const isRender = process.env.RENDER || process.env.RENDER_SERVICE_ID;
 
-    if (!isVercel || isRailway) {
+    if (!isVercel || isRailway || isRender) {
       console.log('--- Iniciando WhatsApp Service ---');
       whatsappService.init(env.groqApiKey).catch(err => console.error('Erro WhatsApp:', err));
     } else {

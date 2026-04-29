@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: efata-backend
+    env: docker
+    dockerContext: backend
+    dockerfilePath: Dockerfile
+    plan: free
+    region: oregon
+    envVars:
+      - key: PORT
+        value: 3001
+      - key: NODE_ENV
+        value: production
+      - fromContext: DOCKER_ENABLE_BUILDKIT
+        value: "1"
+    healthCheckPath: /api/health
