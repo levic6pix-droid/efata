@@ -40,8 +40,12 @@ const start = async () => {
   try {
     await ensureDefaultAdmin();
     
-    // Inicia o WhatsApp em background
-    whatsappService.init(env.groqApiKey).catch(err => console.error('Erro WhatsApp:', err));
+    // Inicia o WhatsApp em background (apenas se não estiver na Vercel)
+    if (!process.env.VERCEL) {
+      whatsappService.init(env.groqApiKey).catch(err => console.error('Erro WhatsApp:', err));
+    } else {
+      console.log('--- Ambiente Vercel detectado: WhatsApp Service desativado (necessita servidor dedicado) ---');
+    }
 
     console.log(`Allowed CORS origins: ${env.corsOrigins.join(', ')}`);
     server.listen(env.port, () => {
