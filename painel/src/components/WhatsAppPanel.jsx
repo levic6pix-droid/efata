@@ -112,6 +112,13 @@ function WhatsAppPanel({ socket }) {
     return (
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24, height: 'calc(100vh - 200px)' }}>
         <div className="table-container" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: 40 }}>
+          <div style={{ marginBottom: 20, display: 'flex', alignItems: 'center', gap: 8, background: socket?.connected ? '#f0fdf4' : '#fff5f5', padding: '8px 16px', borderRadius: 20 }}>
+            <Circle size={8} fill={socket?.connected ? '#22c55e' : '#ef4444'} color={socket?.connected ? '#22c55e' : '#ef4444'}/>
+            <span style={{ fontSize: 11, fontWeight: 800, color: socket?.connected ? '#16a34a' : '#b91c1c' }}>
+              SERVIDOR: {socket?.connected ? 'CONECTADO' : 'DESCONECTADO'}
+            </span>
+          </div>
+
           {qrCode ? (
             <>
               <div style={{ background: 'white', padding: 20, borderRadius: 24, boxShadow: '0 20px 40px rgba(0,0,0,0.12)' }}>
@@ -123,9 +130,13 @@ function WhatsAppPanel({ socket }) {
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 20 }}>
               <RefreshCw size={48} color="var(--primary)" style={{ animation: 'spin 1s linear infinite' }}/>
-              <p style={{ fontWeight: 700, color: 'var(--text-muted)' }}>Aguardando conexão WhatsApp...</p>
+              <div style={{ textAlign: 'center' }}>
+                <p style={{ fontWeight: 700, color: 'var(--text-main)' }}>Aguardando sinal do WhatsApp...</p>
+                <p style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 4 }}>Isso pode levar até 2 minutos no primeiro acesso.</p>
+              </div>
             </div>
           )}
+        </div>
         </div>
 
         {/* Feed global mesmo desconectado (histórico do banco) */}
