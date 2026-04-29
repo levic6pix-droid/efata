@@ -1,21 +1,40 @@
-# Use an official Node.js image with Puppeteer dependencies
-FROM ghcr.io/puppeteer/puppeteer:latest
+FROM node:18-slim
 
-USER root
+# Install Puppeteer dependencies
+RUN apt-get update && apt-get install -y \
+    libnss3 \
+    libdbus-1-3 \
+    libatk1.0-0 \
+    libasound2 \
+    libxcasn1-3 \
+    libxrandr2 \
+    libxss1 \
+    libxtst6 \
+    libcups2 \
+    libxcomposite1 \
+    libxdamage1 \
+    libxkbcommon0 \
+    libgbm1 \
+    libpango-1.0-0 \
+    libcairo2 \
+    libasound2 \
+    libpangocairo-1.0-0 \
+    libatk-bridge2.0-0 \
+    libgtk-3-0 \
+    lsb-release \
+    xdg-utils \
+    wget \
+    --no-install-recommends && \
+    rm -rf /var/lib/apt/lists/*
+
 WORKDIR /app
 
-# Copy package files
 COPY package*.json ./
-
-# Install dependencies
 RUN npm install
 
-# Copy the rest of the backend code
 COPY . .
 
-# Set environment variables
 ENV PORT=3001
 EXPOSE 3001
 
-# Start the application
 CMD ["node", "server.js"]
