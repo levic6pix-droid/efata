@@ -28,10 +28,12 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /app
 
-COPY package*.json ./
+# Copy package files from backend folder
+COPY backend/package*.json ./
 RUN npm install
 
-COPY . .
+# Copy the rest of the backend source code
+COPY backend/ ./
 
 ENV PORT=3001
 EXPOSE 3001
