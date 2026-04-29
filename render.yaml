@@ -11,6 +11,6 @@ services:
         value: 3001
       - key: NODE_ENV
         value: production
-      - fromContext: DOCKER_ENABLE_BUILDKIT
+      - key: DOCKER_ENABLE_BUILDKIT
         value: "1"
     healthCheckPath: /api/health
