@@ -1,0 +1,36 @@
+{
+  "paymentMethods": {
+    "pix": true,
+    "dinheiro": true,
+    "max_parcelas": 12,
+    "cartao_debito": true,
+    "cartao_credito": true
+  },
+  "companyProfile": {
+    "cep": "",
+    "site": "",
+    "tipo": "pf",
+    "email": "",
+    "bairro": "",
+    "cidade": "",
+    "numero": "",
+    "endereco": "",
+    "telefone": "",
+    "whatsapp": "",
+    "documento": "",
+    "razaoSocial": "",
+    "nomeFantasia": "",
+    "inscricaoEstadual": "",
+    "inscricaoMunicipal": ""
+  },
+  "deliveryFees": {
+    "tipo": "fixo",
+    "taxaFixa": 0,
+    "porBairro": [
+      {
+        "bairro": "",
+        "taxa": 0
+      }
+    ]
+  }
+}

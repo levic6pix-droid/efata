@@ -1,0 +1,44 @@
+# Dependency directories
+node_modules/
+jspm_packages/
+
+# Build outputs
+dist/
+build/
+.next/
+out/
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# Databases
+*.sqlite
+*.db
+*.db-journal
+supabase_schema.sql
+
+# WhatsApp Web Auth
+.wwebjs_auth/
+.wwebjs_cache/
+whatsapp-qr.png
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db

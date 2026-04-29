@@ -1,0 +1,128 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Cliente {
+  id          Int      @id @default(autoincrement())
+  nome        String
+  telefone    String
+  rua         String
+  numero      String
+  bairro      String
+  cidade      String?
+  complemento String?
+  ativo       Boolean  @default(true)
+  pedidos     Pedido[]
+  createdAt   DateTime @default(now())
+}
+
+model Categoria {
+  id       Int       @id @default(autoincrement())
+  nome     String
+  ativa    Boolean   @default(true)
+  produtos Produto[]
+}
+
+model Produto {
+  id               Int          @id @default(autoincrement())
+  nome             String
+  descricao        String?
+  preco            Float
+  estoque          Int          @default(0)
+  estoqueMinimo    Int          @default(0)
+  unidade          String       @default("UN")
+  categoriaEstoque String?
+  categoriaId      Int
+  categoria        Categoria    @relation(fields: [categoriaId], references: [id])
+  imagem           String?
+  ativo            Boolean      @default(true)
+  disponivel       Boolean      @default(true)
+  itens            ItemPedido[]
+}
+
+model Pedido {
+  id             Int          @id @default(autoincrement())
+  clienteId      Int
+  cliente        Cliente      @relation(fields: [clienteId], references: [id])
+  status         String       @default("recebido")
+  total          Float
+  formaPagamento String
+  tipoPedido     String       @default("DELIVERY") // 'DELIVERY' | 'RETIRADA'
+  origem         String       @default("APP")      // 'APP' | 'CHATBOT' | 'PDV'
+  entregadorId   Int?
+  entregador     Entregador?  @relation(fields: [entregadorId], references: [id])
+  conversaId     Int?
+  conversa       Conversa?    @relation(fields: [conversaId], references: [id])
+  itens          ItemPedido[]
+  createdAt      DateTime     @default(now())
+}
+
+model AdminUser {
+  id           Int      @id @default(autoincrement())
+  nome         String
+  username     String   @unique
+  passwordHash String
+  role         String   @default("admin")
+  ativo        Boolean  @default(true)
+  createdAt    DateTime @default(now())
+}
+
+model Conversa {
+  id           Int        @id @default(autoincrement())
+  clienteNome  String?
+  whatsapp     String     @unique
+  status       String     @default("aberta") // 'aberta' | 'finalizada'
+  mensagens    Mensagem[]
+  pedidos      Pedido[]
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+}
+
+model Mensagem {
+  id           Int      @id @default(autoincrement())
+  conversaId   Int
+  conversa     Conversa @relation(fields: [conversaId], references: [id])
+  corpo        String
+  tipo         String   // 'incoming' | 'outgoing'
+  timestamp    DateTime @default(now())
+}
+
+model ItemPedido {
+  id         Int     @id @default(autoincrement())
+  pedidoId   Int
+  pedido     Pedido  @relation(fields: [pedidoId], references: [id])
+  produtoId  Int
+  produto    Produto @relation(fields: [produtoId], references: [id])
+  quantidade Int
+  preco      Float
+  observacao String?
+}
+
+model Caixa {
+  id        Int      @id @default(autoincrement())
+  tipo      String
+  valor     Float
+  descricao String
+  data      DateTime @default(now())
+}
+
+model Entregador {
+  id              Int      @id @default(autoincrement())
+  nome            String
+  telefone        String
+  documento       String?
+  tipoVeiculo     String   @default("Moto")
+  placa           String?
+  modelo          String?
+  areaAtuacao     String?
+  ativo           Boolean  @default(true)
+  disponibilidade String   @default("Disponível")
+  turno           String   @default("Livre")
+  pedidos         Pedido[]
+  createdAt       DateTime @default(now())
+}

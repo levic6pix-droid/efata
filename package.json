@@ -1,0 +1,15 @@
+{
+  "name": "delivey-system",
+  "private": true,
+  "scripts": {
+    "dev:backend": "npm --prefix backend run dev",
+    "dev:frontend": "npm --prefix app-cliente run dev",
+    "dev:painel": "npm --prefix painel run dev",
+    "start": "npx concurrently \"npm run dev:backend\" \"npm run dev:frontend\" \"npm run dev:painel\"",
+    "build": "npm --prefix backend run build && npm --prefix frontend run build && npm --prefix painel run build",
+    "lint": "npm --prefix backend run lint && npm --prefix frontend run lint && npm --prefix painel run lint"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
