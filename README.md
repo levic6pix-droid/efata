@@ -33,15 +33,7 @@ npm run dev             # inicia o servidor
 - **E‑mail:** `admin@delivey.local`
 - **Senha:** `admin123456`
 
-## Frontend
-A aplicação cliente roda em `http://localhost:5173`.
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-## Painel Administrativo
+## Painel Administrativo (SISTEMA PRINCIPAL)
 O painel administrativo roda em `http://localhost:5174`.
 ```bash
 cd painel
@@ -49,12 +41,21 @@ npm install
 npm run dev
 ```
 
+## Frontend (App Cliente)
+A aplicação cliente roda em `http://localhost:5173`.
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
 ## Scripts Raiz
 Para facilitar o desenvolvimento, há scripts que iniciam cada parte simultaneamente:
 ```bash
-npm run dev:backend   # inicia o backend
-npm run dev:frontend   # inicia o frontend
-npm run dev:painel     # inicia o painel administrativo
+npm start              # Inicia tudo (Painel, Backend e Cliente)
+npm run dev:painel     # Inicia o SISTEMA PRINCIPAL (Painel Admin)
+npm run dev:backend    # Inicia o backend
+npm run dev:frontend   # Inicia o app do cliente
 npm run build          # gera builds de produção
 npm run lint           # executa análise de código
 ```

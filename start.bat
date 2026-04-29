@@ -50,9 +50,9 @@ echo.
 echo  --------------------------------------------------
 echo   MODULO             URL DE ACESSO
 echo  --------------------------------------------------
-echo   Backend API        http://localhost:3001
+echo   Painel Admin       http://localhost:5174 (PRINCIPAL)
 echo   App do Cliente     http://localhost:5173
-echo   Painel Admin       http://localhost:5174
+echo   Backend API        http://localhost:3001
 echo  --------------------------------------------------
 echo.
 echo  Iniciando servidores (isso pode demorar alguns segundos).
