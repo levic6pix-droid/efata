@@ -11,7 +11,7 @@ const getAuthPayload = (admin) => ({
   role: admin.role,
 });
 
-const resolvedJwtSecret = env.jwtSecret || crypto.randomUUID();
+const resolvedJwtSecret = env.jwtSecret || 'efata_stable_secret_2024_prod';
 
 const ensureDefaultAdmin = async () => {
   // Desativado: Agora usamos autenticação direta via .env para o painel
@@ -21,9 +21,9 @@ const ensureDefaultAdmin = async () => {
 const login = async ({ username, password }) => {
   console.log(`Tentativa de login: ${username}`);
   
-  // Verifica contra as variáveis do .env (com trim para segurança)
-  const envUser = (env.adminUsername || '').trim();
-  const envPass = (env.adminPassword || '').trim();
+  // Verifica contra as variáveis do .env (com admin/admin como fallback padrão)
+  const envUser = (env.adminUsername || 'admin').trim();
+  const envPass = (env.adminPassword || 'admin').trim();
   const isDefaultAdmin = username.trim() === envUser && password.trim() === envPass;
 
   if (!isDefaultAdmin) {
