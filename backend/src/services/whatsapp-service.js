@@ -259,7 +259,18 @@ ${pedido.endereco}
       }
     });
 
-    this.client.initialize();
+    this.client.on('auth_failure', (msg) => {
+      console.error('❌ [WhatsApp] Falha na Autenticação:', msg);
+    });
+
+    try {
+      console.log('[WhatsApp] Tentando inicializar WhatsApp Web...');
+      this.client.initialize().catch(err => {
+        console.error('❌ [WhatsApp] Erro na promessa de inicialização:', err);
+      });
+    } catch (err) {
+      console.error('❌ [WhatsApp] Erro síncrono na inicialização:', err);
+    }
   }
 }
 
