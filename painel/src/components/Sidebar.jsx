@@ -4,9 +4,7 @@ function Sidebar({ items, currentView, onChange, onLogout, user }) {
   return (
     <aside className="sidebar">
       <div className="logo-area" style={{ marginBottom: 30, display: 'flex', alignItems: 'center', gap: 12 }}>
-        <h2 style={{ fontSize: 24, fontWeight: 'bold', color: 'var(--green-700)', margin: 0 }}>
-          🌿 Green<span style={{ color: 'var(--yellow-500)' }}>ERP</span>
-        </h2>
+        <img src="/logo.png" alt="Logo" style={{ height: 60, width: 'auto', objectFit: 'contain' }} />
       </div>
 
       <nav style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 4 }}>

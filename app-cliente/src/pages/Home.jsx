@@ -54,6 +54,9 @@ function Home() {
     <div style={{ paddingBottom: 100 }}>
       {/* HEADER */}
       <header className="glass" style={{ position: 'sticky', top: 0, zIndex: 10, padding: '20px', borderBottom: '1px solid var(--border-color)' }}>
+        <div style={{ textAlign: 'center', marginBottom: 15 }}>
+          <img src="/logo.png" alt="Logo" style={{ height: 50, width: 'auto', objectFit: 'contain' }} />
+        </div>
         <div className="flex justify-between items-center mb-4">
           <div>
             <div style={{ fontSize: 12, color: 'var(--text-muted)', fontWeight: 600 }}>Entregando em</div>

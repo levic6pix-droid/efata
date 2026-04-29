@@ -118,14 +118,14 @@ function StorefrontPage() {
           alignItems: 'center',
         }}
       >
-        <div>
-          <div style={{ color: 'var(--primary)', fontWeight: 800, fontSize: 14 }}>
-            DELIVERY UNIFICADO
+        <div style={{ display: 'flex', alignItems: 'center', gap: 15 }}>
+          <img src="/logo.png" alt="Logo" style={{ height: 60, width: 'auto', objectFit: 'contain' }} />
+          <div>
+            <div style={{ color: 'var(--primary)', fontWeight: 800, fontSize: 14 }}>
+              DELIVERY OFICIAL
+            </div>
+            <h1 style={{ fontSize: 28, marginTop: 4 }}>Efatá Delivery</h1>
           </div>
-          <h1 style={{ fontSize: 36, marginTop: 10 }}>Peça no cardápio oficial</h1>
-          <p style={{ color: 'var(--text-muted)', marginTop: 8 }}>
-            Frontend conectado ao backend Prisma único.
-          </p>
         </div>
 
         <button
