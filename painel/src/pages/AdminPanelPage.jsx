@@ -104,7 +104,17 @@ function AdminPanelPage() {
   );
 
   if (auth.loading) {
-    return <div style={{ padding: 24 }}>Carregando autenticação...</div>;
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh', gap: 20, background: 'var(--bg)' }}>
+        <div className="spinner"></div>
+        <div style={{ textAlign: 'center' }}>
+          <p style={{ fontWeight: 800, color: 'var(--secondary)', fontSize: 18 }}>Iniciando Sistema...</p>
+          <p style={{ color: 'var(--text-muted)', fontSize: 14, marginTop: 8, maxWidth: 300 }}>
+            O servidor de produção está acordando. Isso pode levar até 1 minuto no primeiro acesso do dia.
+          </p>
+        </div>
+      </div>
+    );
   }
 
   if (!auth.isAuthenticated) {
