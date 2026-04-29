@@ -40,11 +40,14 @@ export function useAdminData(enabled = true) {
   }, [enabled, state.products.length]);
 
   const stats = useMemo(() => {
-    const validOrders = state.pedidos.filter(p => p.status !== 'cancelado');
+    const pedidos = Array.isArray(state.pedidos) ? state.pedidos : [];
+    const products = Array.isArray(state.products) ? state.products : [];
+    
+    const validOrders = pedidos.filter(p => p && p.status !== 'cancelado');
     const totalReceita = validOrders.reduce((sum, p) => sum + Number(p.total || 0), 0);
 
     return {
-      products: state.products.filter(p => p.ativo).length,
+      products: products.filter(p => p && p.ativo).length,
       total: totalReceita,
       orders: validOrders.length,
       averageTicket: validOrders.length

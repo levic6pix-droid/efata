@@ -4,7 +4,7 @@ function DashboardCards({ stats }) {
   const cards = [
     { 
       label: 'Faturamento', 
-      value: `R$ ${stats.total.toFixed(2)}`, 
+      value: `R$ ${Number(stats?.total || 0).toFixed(2)}`, 
       icon: <DollarSign size={24} />,
       color: 'var(--green-700)',
       bg: 'var(--green-100)',

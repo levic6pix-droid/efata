@@ -133,7 +133,7 @@ function AdminPanelPage() {
               <div style={{ display: 'grid', gap: 20 }}>
                 <div>
                   <h1 style={{ fontSize: 22, fontWeight: 900, color: 'var(--text-main)', letterSpacing: '-0.02em', marginBottom: 4 }}>
-                    Lealty <span style={{ color: 'var(--primary)' }}>ERP</span>
+                    Efatá <span style={{ color: 'var(--primary)' }}>Delivery</span>
                   </h1>
                   <p style={{ fontSize: 13, color: 'var(--text-muted)' }}>Bem-vindo ao centro de comando do seu delivery.</p>
                 </div>
