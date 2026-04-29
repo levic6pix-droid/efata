@@ -41,10 +41,14 @@ const start = async () => {
     await ensureDefaultAdmin();
     
     // Inicia o WhatsApp em background (apenas se não estiver na Vercel)
-    if (!process.env.VERCEL) {
+    const isVercel = process.env.VERCEL || process.env.NOW_BUILDER;
+    const isRailway = process.env.RAILWAY_ENVIRONMENT || process.env.RAILWAY_STATIC_URL;
+
+    if (!isVercel || isRailway) {
+      console.log('--- Iniciando WhatsApp Service ---');
       whatsappService.init(env.groqApiKey).catch(err => console.error('Erro WhatsApp:', err));
     } else {
-      console.log('--- Ambiente Vercel detectado: WhatsApp Service desativado (necessita servidor dedicado) ---');
+      console.log('--- Ambiente Serverless detectado: WhatsApp Service desativado ---');
     }
 
     console.log(`Allowed CORS origins: ${env.corsOrigins.join(', ')}`);
