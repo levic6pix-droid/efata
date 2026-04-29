@@ -1,4 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react';
+import { useSocket } from './SocketContext';
+import api from '../services/api';
 
 const CartContext = createContext();
 
@@ -7,10 +9,45 @@ export function CartProvider({ children }) {
     const saved = localStorage.getItem('efata_carrinho');
     return saved ? JSON.parse(saved) : [];
   });
+  const socket = useSocket();
 
   useEffect(() => {
     localStorage.setItem('efata_carrinho', JSON.stringify(carrinho));
   }, [carrinho]);
+
+  useEffect(() => {
+    if (!socket) return;
+    
+    const validateCart = async () => {
+      try {
+        const res = await api.get('/catalog/cardapio');
+        const cardapioAtivo = res.data.filter(p => p.ativo && p.estoque > 0);
+        
+        setCarrinho(prev => {
+          return prev.filter(item => {
+            const produtoValido = cardapioAtivo.find(p => p.id === item.id);
+            if (!produtoValido) {
+              alert(`O item "${item.nome}" não está mais disponível e foi removido do seu carrinho.`);
+              return false;
+            }
+            if (item.quantidade > produtoValido.estoque) {
+               alert(`O item "${item.nome}" não tem mais a quantidade solicitada em estoque.`);
+               // Poderíamos reduzir a quantidade aqui, mas remover é mais seguro para não causar surpresa.
+               return false;
+            }
+            return true;
+          });
+        });
+      } catch (e) {
+        console.error('Erro ao validar carrinho em tempo real:', e);
+      }
+    };
+
+    socket.on('dados_atualizados', validateCart);
+    return () => {
+      socket.off('dados_atualizados', validateCart);
+    };
+  }, [socket]);
 
   const addAoCarrinho = (produto, quantidade = 1, observacao = '') => {
     setCarrinho(prev => {

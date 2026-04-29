@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Search, ShoppingBag, MapPin, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import { useSocket } from '../context/SocketContext';
 import api from '../services/api';
 import { motion } from 'framer-motion';
 
@@ -14,24 +15,34 @@ function Home() {
   
   const navigate = useNavigate();
   const { quantidadeTotal, total } = useCart();
+  const socket = useSocket();
+
+  const loadData = async () => {
+    try {
+      const res = await api.get('/catalog/cardapio');
+      const prods = res.data.filter(p => p.ativo && p.estoque > 0);
+      setProdutos(prods);
+      
+      const cats = [...new Set(prods.map(p => p.categoria?.nome).filter(Boolean))];
+      setCategorias(['Todas', ...cats]);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    async function loadData() {
-      try {
-        const res = await api.get('/catalog/cardapio');
-        const prods = res.data.filter(p => p.ativo && p.estoque > 0);
-        setProdutos(prods);
-        
-        const cats = [...new Set(prods.map(p => p.categoria?.nome).filter(Boolean))];
-        setCategorias(['Todas', ...cats]);
-      } catch (e) {
-        console.error(e);
-      } finally {
-        setLoading(false);
-      }
-    }
     loadData();
   }, []);
+
+  useEffect(() => {
+    if (!socket) return;
+    socket.on('dados_atualizados', loadData);
+    return () => {
+      socket.off('dados_atualizados', loadData);
+    };
+  }, [socket]);
 
   const produtosFiltrados = produtos.filter(p => {
     const matchBusca = p.nome.toLowerCase().includes(busca.toLowerCase());

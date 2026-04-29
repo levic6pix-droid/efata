@@ -1,27 +1,36 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ChevronLeft, Package, ChefHat, CheckCircle, Bike, MapPin } from 'lucide-react';
-import { io } from 'socket.io-client';
+import { useSocket } from '../context/SocketContext';
 import api from '../services/api';
-
-const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || 'http://localhost:3000';
 
 function OrderStatus() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [pedido, setPedido] = useState(null);
   const [loading, setLoading] = useState(true);
+  const socket = useSocket();
 
   useEffect(() => {
     carregarPedido();
     
-    const socket = io(SOCKET_URL);
-    socket.on('dados_atualizados', () => {
-      carregarPedido();
+    if (!socket) return;
+    
+    socket.on('dados_atualizados', carregarPedido);
+    socket.on('pedido_atualizado', (data) => {
+      // Opcional: Atualizar apenas se o ID do pedido for o mesmo
+      if (data && data.id === Number(id)) {
+        carregarPedido();
+      } else if (!data) {
+        carregarPedido();
+      }
     });
 
-    return () => socket.disconnect();
-  }, [id]);
+    return () => {
+      socket.off('dados_atualizados', carregarPedido);
+      socket.off('pedido_atualizado');
+    };
+  }, [id, socket]);
 
   const carregarPedido = async () => {
     try {
