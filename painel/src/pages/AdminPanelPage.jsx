@@ -43,9 +43,32 @@ const views = [
 ];
 
 function AdminPanelPage() {
+  const [hasError, setHasError] = useState(false);
   const auth = useAuth();
   const [view, setView] = useState('dashboard');
   const adminData = useAdminData(auth.isAuthenticated);
+
+  useEffect(() => {
+    const handleError = (error) => {
+      console.error('Erro global capturado:', error);
+      setHasError(true);
+    };
+    window.addEventListener('error', handleError);
+    return () => window.removeEventListener('error', handleError);
+  }, []);
+
+  if (hasError) {
+    return (
+      <div style={{ padding: 40, textAlign: 'center' }}>
+        <h2>Ops! Algo deu errado.</h2>
+        <p>Ocorreu um erro inesperado no painel.</p>
+        <button className="btn-primary" onClick={() => window.location.reload()} style={{ margin: '20px auto' }}>
+          Recarregar Página
+        </button>
+      </div>
+    );
+  }
+
   const { reload } = adminData;
 
   useEffect(() => {

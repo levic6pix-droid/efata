@@ -57,7 +57,12 @@ export function useAdminData(enabled = true) {
   }, [state]);
 
   return {
-    ...state,
+    products: Array.isArray(state.products) ? state.products : [],
+    categories: Array.isArray(state.categories) ? state.categories : [],
+    clientes: Array.isArray(state.clientes) ? state.clientes : [],
+    caixa: Array.isArray(state.caixa) ? state.caixa : [],
+    entregadores: Array.isArray(state.entregadores) ? state.entregadores : [],
+    pedidos: Array.isArray(state.pedidos) ? state.pedidos : [],
     error,
     loading,
     refreshing,
