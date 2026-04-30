@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import { CartProvider } from './context/CartContext';
 import { SocketProvider } from './context/SocketContext';
 import Home from './pages/Home';
@@ -18,6 +19,7 @@ function App() {
             <Route path="/pedido/:id" element={<OrderStatus />} />
           </Routes>
         </Router>
+        <SpeedInsights />
       </CartProvider>
     </SocketProvider>
   );
