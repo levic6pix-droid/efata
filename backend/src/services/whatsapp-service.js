@@ -13,7 +13,7 @@ class WhatsAppService {
       qrMaxRetries: 100000,
       authTimeoutMs: 120000,
       puppeteer: {
-        headless: 'new',
+        headless: true,
         executablePath: process.env.CHROME_PATH || '/usr/bin/google-chrome-stable',
         args: [
           '--no-sandbox', 
@@ -24,7 +24,11 @@ class WhatsAppService {
           '--no-zygote',
           '--single-process',
           '--disable-gpu',
-          '--disable-extensions'
+          '--disable-software-rasterizer',
+          '--disable-extensions',
+          '--memory-pressure-off',
+          '--disable-features=IsolateOrigins,site-per-process',
+          '--js-flags="--max-old-space-size=256"'
         ],
       }
     });
