@@ -7,11 +7,8 @@ const createSocketServer = (httpServer) => {
   io = new Server(httpServer, {
     cors: {
       origin(origin, callback) {
-        if (!origin || env.socketOrigins.includes(origin)) {
-          return callback(null, true);
-        }
-
-        return callback(new Error('Socket origin not allowed'));
+        // Permitir todas as origens para garantir que o painel conecte corretamente independente do domínio (Vercel, Railway, etc)
+        return callback(null, true);
       },
       credentials: true,
     },
