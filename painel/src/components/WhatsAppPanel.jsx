@@ -160,7 +160,6 @@ function WhatsAppPanel({ socket }) {
             </div>
           )}
         </div>
-        </div>
 
         {/* Feed global mesmo desconectado (histórico do banco) */}
         <GlobalFeed feed={realtimeFeed} feedRef={feedRef}/>
