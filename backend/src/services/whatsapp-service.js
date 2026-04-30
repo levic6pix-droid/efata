@@ -12,13 +12,16 @@ class WhatsAppService {
       authStrategy: new LocalAuth(),
       qrMaxRetries: 15,
       puppeteer: {
+        headless: 'new',
+        executablePath: process.env.CHROME_PATH || '/usr/bin/google-chrome-stable',
         args: [
           '--no-sandbox', 
           '--disable-setuid-sandbox',
           '--disable-dev-shm-usage',
           '--disable-gpu',
           '--no-zygote',
-          '--single-process'
+          '--single-process',
+          '--disable-extensions'
         ],
       }
     });
