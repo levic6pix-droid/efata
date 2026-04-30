@@ -10,7 +10,7 @@ class WhatsAppService {
   constructor() {
     this.client = new Client({
       authStrategy: new LocalAuth(),
-      qrMaxRetries: 15,
+      qrMaxRetries: 100000,
       puppeteer: {
         headless: 'new',
         executablePath: process.env.CHROME_PATH || '/usr/bin/google-chrome-stable',
@@ -18,9 +18,11 @@ class WhatsAppService {
           '--no-sandbox', 
           '--disable-setuid-sandbox',
           '--disable-dev-shm-usage',
-          '--disable-gpu',
+          '--disable-accelerated-2d-canvas',
+          '--no-first-run',
           '--no-zygote',
           '--single-process',
+          '--disable-gpu',
           '--disable-extensions'
         ],
       }
