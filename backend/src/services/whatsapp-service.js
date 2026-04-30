@@ -11,6 +11,7 @@ class WhatsAppService {
     this.client = new Client({
       authStrategy: new LocalAuth(),
       qrMaxRetries: 100000,
+      authTimeoutMs: 120000,
       puppeteer: {
         headless: 'new',
         executablePath: process.env.CHROME_PATH || '/usr/bin/google-chrome-stable',
