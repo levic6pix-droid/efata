@@ -10,6 +10,7 @@ class WhatsAppService {
   constructor() {
     this.client = new Client({
       authStrategy: new LocalAuth(),
+      qrMaxRetries: 15,
       puppeteer: {
         args: [
           '--no-sandbox', 
@@ -259,8 +260,31 @@ ${pedido.endereco}
       }
     });
 
-    this.client.on('auth_failure', (msg) => {
+    this.client.on('auth_failure', async (msg) => {
       console.error('❌ [WhatsApp] Falha na Autenticação:', msg);
+      this.isReady = false;
+      this.lastQr = '';
+      try {
+        await this.client.destroy();
+        const fs = require('fs');
+        fs.rmSync('.wwebjs_auth', { recursive: true, force: true });
+        console.log('🗑️ Sessão antiga apagada. Reiniciando...');
+        this.client.initialize().catch(e=>console.error(e));
+      } catch (e) {}
+    });
+
+    this.client.on('disconnected', async (reason) => {
+      console.error('❌ [WhatsApp] Cliente desconectado:', reason);
+      this.isReady = false;
+      this.lastQr = '';
+      emitSystemUpdate('whatsapp_status', { connected: false });
+      try {
+        await this.client.destroy();
+        setTimeout(() => {
+          console.log('🔄 Reiniciando conexão...');
+          this.client.initialize().catch(e=>console.error(e));
+        }, 3000);
+      } catch (e) {}
     });
 
     try {
